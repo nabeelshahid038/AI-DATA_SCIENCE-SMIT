@@ -63,7 +63,7 @@ print(cal - cal2)
 #         - cart - item → removes item (if exists)
 #         - str(cart) shows total items & bill
 
-class cart:
+""" class cart:
     def __init__(self):
         self.items = []
         self.total_bill = 0
@@ -75,19 +75,19 @@ class cart:
     
     def __isub__(self, other):
         # subtract by the whole dictionary
-        """ 
+         
         if other in self.items:
             self.items.pop(self.items.index(other))
             self.items.remove(other)
         self.total_bill -= other["price"]*other["qty"] 
-        """
+        
         # subtracting by the index no
-        """ 
+    
         if other-1 < len(self.items) and other-1 > -1:
             self.total_bill -= self.items[other-1]["price"]*self.items[other-1]["qty"]
             self.items.pop(other-1)
         return self 
-        """
+        
         # subtracting by the name and qty
         for dict in self.items:
             if dict["name"] == other[0]:
@@ -113,21 +113,90 @@ class cart:
             str += "\n" + ("*"*20 )+ "\n"
         str += f"total items : {len(self.items)}\n"
         str += f"total bill : {self.total_bill}"
-        return str
+        return str """
+    
         
 
+# mycart = cart()
+# mycart += {"name":"pen","price":100,"qty":2}
+# mycart += {"name":"remover","price":200,"qty":1}
+# # mycart -= {"name":"pen","price":100,"qty":2}
+# # print(mycart)
+# # mycart -= 2
+# print(mycart)
+# mycart -= ("pen",1)
+# print(mycart)
+# mycart -= ("pen",1)
+# # print(mycart)
+
+
+class cart:
+    def __init__(self):
+        self.items = []
+        self.total_bill = 0
+    
+    def __iadd__(self, other):
+        self.items.append(other)
+        self.total_bill += other.price * other.qty
+        return self
+    
+    def __isub__(self, other:tuple):
+        # subtract by the item object
+        # for obj in self.items:
+        #     if other[0].name == obj.name:
+        #         if other[1] <= obj.qty:
+        #             obj.qty -= other[1]
+        #             self.total_bill -= obj.price*other[1]
+        #             if obj.qty == 0:
+        #                 self.items.remove(obj)
+        #             break
+        #         else:
+        #             print("given qty is more than available qty in the cart")
+        # return self
+        # subtracting by the index with qty
+        sub_item = self.items[other[0]-1]
+        if other[1] <= sub_item.qty:
+            sub_item.qty -= other[1]
+            self.total_bill -= sub_item.price * other[1]
+            if sub_item.qty == 0:
+                self.items.pop(other[0]-1)
+            else:
+                self.items[other[0]] = sub_item
+            return self
+        else:
+            return self
+
+
+
+    def __str__(self):
+        str = ""
+        for index,obj in enumerate(self.items):
+            print()
+            str += f"item : {index+1}\n"
+            str += f"name : {obj.name}\n"
+            str += f"price : {obj.price}\n"
+            str += f"qty : {obj.qty}\n"
+            str += f"\nsub total : {obj.price*obj.qty}"
+            str += "\n" + ("*"*20 )+ "\n"
+        str += f"total items : {len(self.items)}\n"
+        str += f"total bill : {self.total_bill}"
+        return str
+
+class Item:
+    def __init__(self, name:str, price:int, qty:int):
+        self.name = name
+        self.price = price
+        self.qty = qty
+
+
+item1 = Item("pen",100,2)
+item2 = Item("remover",200,1)
+
 mycart = cart()
-mycart += {"name":"pen","price":100,"qty":2}
-mycart += {"name":"remover","price":200,"qty":1}
-# mycart -= {"name":"pen","price":100,"qty":2}
-# print(mycart)
-# mycart -= 2
+
+mycart += item1
+mycart += item2
 print(mycart)
-mycart -= ("pen",1)
+# mycart -= (item1,1)
+mycart -= (1,2)
 print(mycart)
-mycart -= ("pen",1)
-# print(mycart)
-
-
-
-

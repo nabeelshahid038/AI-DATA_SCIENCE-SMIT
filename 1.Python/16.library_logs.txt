@@ -1,0 +1,4 @@
+2026-05-24 18:46:14.996851 - borrow_book has called
+2026-05-24 18:46:33.613941 - borrow_book has called
+2026-05-24 18:46:38.445783 - borrow_book has called
+2026-05-24 18:46:42.949169 - return_book has called
